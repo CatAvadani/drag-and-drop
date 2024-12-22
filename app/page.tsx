@@ -74,17 +74,20 @@ export default function Home() {
   }
 
   return (
-    <div className='p-4'>
-      <div className='flex gap-8'>
-        <DndContext onDragEnd={handleDragEnd}>
-          {COLUMNS.map((column) => (
-            <Column
-              key={column.id}
-              column={column}
-              tasks={tasks.filter((task) => task.status === column.id)}
-            />
-          ))}
-        </DndContext>
+    <div className=' flex pt-10 justify-center items-center'>
+      <div className=' px-20 pb-20 bg-white/5 border border-white/10 rounded-lg'>
+        <h1 className='text-white py-8 text-center text-2xl'>Drag and Drop</h1>
+        <div className='flex gap-8'>
+          <DndContext onDragEnd={handleDragEnd}>
+            {COLUMNS.map((column) => (
+              <Column
+                key={column.id}
+                column={column}
+                tasks={tasks.filter((task) => task.status === column.id)}
+              />
+            ))}
+          </DndContext>
+        </div>
       </div>
     </div>
   );
