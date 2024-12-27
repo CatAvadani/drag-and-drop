@@ -2,7 +2,7 @@
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
-import AddNewTaskModal from './components/AddNewTodoForm';
+import AddNewTaskModal from './components/AddNewTaskModal';
 import Column from './components/Column';
 import { Column as ColumnTypes, Task } from './types';
 
@@ -79,6 +79,10 @@ export default function Home() {
     setIsOpen(true);
   };
 
+  const handleAddTask = (task: Task) => {
+    setTasks((prev) => [...prev, task]);
+  };
+
   return (
     <div className=' flex pt-10 justify-center items-center'>
       <div className=' px-20 pb-20 bg-white/5 border border-white/10 rounded-lg'>
@@ -91,7 +95,13 @@ export default function Home() {
           <PlusIcon className='w-4 h-4' /> Add New Task
         </button>
 
-        {isOpen && <AddNewTaskModal isOpen onClose={() => setIsOpen(false)} />}
+        {isOpen && (
+          <AddNewTaskModal
+            isOpen
+            onClose={() => setIsOpen(false)}
+            onAddTask={handleAddTask}
+          />
+        )}
 
         <div className='flex gap-8'>
           <DndContext onDragEnd={handleDragEnd}>
