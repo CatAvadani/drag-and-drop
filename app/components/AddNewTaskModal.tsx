@@ -17,7 +17,7 @@ export default function AddNewTaskModal({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newTask = {
-      id: Date.now().toString(),
+      id: crypto.randomUUID(),
       status: 'TODO' as TaskStatus,
       title: formValues.title,
       description: formValues.description,
