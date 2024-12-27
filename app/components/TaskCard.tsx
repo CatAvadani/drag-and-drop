@@ -1,4 +1,5 @@
 import { useDraggable } from '@dnd-kit/core';
+import { EllipsisVerticalIcon } from '@heroicons/react/24/solid';
 import { Task } from '../types';
 
 type TaskCardProps = {
@@ -21,10 +22,13 @@ export default function TaskCard({ task }: TaskCardProps) {
       {...listeners}
       {...attributes}
       style={style}
-      className=' cursor-grab rounded-lg bg-neutral-700 p-4 shadow-sm hover:shadow-md'
+      className='cursor-grab rounded-lg bg-neutral-700/30 p-4 shadow-sm hover:shadow-md flex justify-between items-center'
     >
-      <h3 className='font-medium text-neutral-100'>{task.title}</h3>
-      <p className=' mt-2 text-sm text-neutral-400'>{task.description}</p>
+      <div>
+        <h3 className='font-medium text-neutral-100'>{task.title}</h3>
+        <p className=' mt-2 text-sm text-neutral-400'>{task.description}</p>
+      </div>
+      <EllipsisVerticalIcon className='w-5 h-5 text-white' />
     </div>
   );
 }

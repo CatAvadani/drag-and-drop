@@ -1,6 +1,8 @@
 'use client';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
-import { useState } from 'react';
+import { PlusIcon } from '@heroicons/react/24/solid';
+import { useEffect, useState } from 'react';
+import AddNewTaskModal from './components/AddNewTaskModal';
 import Column from './components/Column';
 import { Column as ColumnTypes, Task } from './types';
 
@@ -56,8 +58,16 @@ const INITIAL_TASKS: Task[] = [
 ];
 
 export default function Home() {
-  const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    return savedTasks ? JSON.parse(savedTasks) : INITIAL_TASKS;
+  });
 
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+  const [isOpen, setIsOpen] = useState(false);
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
@@ -73,10 +83,34 @@ export default function Home() {
     );
   }
 
+  const handleClick = () => {
+    setIsOpen(true);
+  };
+
+  const handleAddTask = (task: Task) => {
+    setTasks((prev) => [...prev, task]);
+  };
+
   return (
     <div className=' flex pt-10 justify-center items-center'>
       <div className=' px-20 pb-20 bg-white/5 border border-white/10 rounded-lg'>
         <h1 className='text-white py-8 text-center text-2xl'>Drag and Drop</h1>
+
+        <button
+          onClick={handleClick}
+          className='flex justify-center items-center gap-2 px-6 py-2 bg-violet-900 text-white mb-4 rounded-lg hover:bg-violet-700 transform transition-colors duration-200'
+        >
+          <PlusIcon className='w-4 h-4' /> Add New Task
+        </button>
+
+        {isOpen && (
+          <AddNewTaskModal
+            isOpen
+            onClose={() => setIsOpen(false)}
+            onAddTask={handleAddTask}
+          />
+        )}
+
         <div className='flex gap-8'>
           <DndContext onDragEnd={handleDragEnd}>
             {COLUMNS.map((column) => (
