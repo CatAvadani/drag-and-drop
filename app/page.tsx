@@ -1,7 +1,7 @@
 'use client';
 import { DndContext, DragEndEvent } from '@dnd-kit/core';
 import { PlusIcon } from '@heroicons/react/24/solid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AddNewTaskModal from './components/AddNewTaskModal';
 import Column from './components/Column';
 import { Column as ColumnTypes, Task } from './types';
@@ -58,7 +58,15 @@ const INITIAL_TASKS: Task[] = [
 ];
 
 export default function Home() {
-  const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    return savedTasks ? JSON.parse(savedTasks) : INITIAL_TASKS;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
   const [isOpen, setIsOpen] = useState(false);
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
