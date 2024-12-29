@@ -1,17 +1,18 @@
+'use client';
 import { useState } from 'react';
-import { Task, TaskStatus } from '../types';
+import { useTaskStore } from '../store';
+import { TaskStatus } from '../types';
 
 interface AddNewTaskModalProps {
   onClose: () => void;
   isOpen: boolean;
-  onAddTask: (task: Task) => void;
 }
 
 export default function AddNewTaskModal({
   onClose,
   isOpen,
-  onAddTask,
 }: AddNewTaskModalProps) {
+  const addTask = useTaskStore((state) => state.addTask);
   const [formValues, setFormValues] = useState({ title: '', description: '' });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +23,7 @@ export default function AddNewTaskModal({
       title: formValues.title,
       description: formValues.description,
     };
-    onAddTask(newTask);
+    addTask(newTask);
     setFormValues({
       title: '',
       description: '',

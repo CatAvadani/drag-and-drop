@@ -2,11 +2,16 @@ import { PencilIcon, TrashIcon } from '@heroicons/react/24/solid';
 import { useEffect, useRef } from 'react';
 
 interface ActionsModalProps {
+  onDelete: () => void;
   onClose: () => void;
   isOpen: boolean;
 }
 
-export default function ActionsModal({ onClose, isOpen }: ActionsModalProps) {
+export default function ActionsModal({
+  onClose,
+  onDelete,
+  isOpen,
+}: ActionsModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -39,8 +44,7 @@ export default function ActionsModal({ onClose, isOpen }: ActionsModalProps) {
         <button
           onClick={(e) => {
             e.preventDefault();
-            console.log('Delete clicked');
-            onClose();
+            onDelete();
           }}
           onPointerDown={(e) => e.stopPropagation()}
           className='text-white hover:bg-neutral-600 px-4 py-2 rounded flex justify-start items-center gap-4'
