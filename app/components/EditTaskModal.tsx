@@ -1,5 +1,12 @@
 import { useState } from "react";
 import { useTaskStore } from "../store";
+import { Task } from "../types";
+
+interface EditTaskModalProps {
+  task: Task;
+  onClose: () => void;
+  isOpen: boolean;
+}
 
 export default function EditTaskModal({
   onClose,
