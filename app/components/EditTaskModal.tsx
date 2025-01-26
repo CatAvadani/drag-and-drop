@@ -1,4 +1,3 @@
-"use client";
 import { useState } from "react";
 import { useTaskStore } from "../store";
 import { Task } from "../types";
@@ -33,7 +32,13 @@ export default function EditTaskModal({
       <form
         onSubmit={handleSubmit}
         onPointerDown={(e) => e.stopPropagation()}
-        className="flex flex-col gap-4 w-full max-w-[500px] p-6 rounded-lg bg-neutral-500/20 backdrop-blur-3xl shadow-lg border border-white/20"
+        onKeyDown={(e) => {
+          if (e.key === " ") {
+            e.stopPropagation();
+          }
+        }}
+        onClick={(e) => e.stopPropagation()}
+        className="flex flex-col gap-4 w-full max-w-[500px] h-[320px] p-6 rounded-lg bg-neutral-500/20 backdrop-blur-3xl shadow-lg border border-white/20"
       >
         <h1 className="text-lg font-semibold text-center mb-2 text-white">
           Edit Task
@@ -54,15 +59,15 @@ export default function EditTaskModal({
           onChange={(e) =>
             setFormValues((prev) => ({ ...prev, description: e.target.value }))
           }
-          className="w-full p-2 border border-white/30 rounded-md focus:outline-none focus:ring focus:ring-purple-300/50 bg-black/70 text-white"
+          className="w-full h-24 p-2 border border-white/30 rounded-md focus:outline-none focus:ring focus:ring-purple-300/50 bg-black/70 text-white resize-none"
         />
-        <div className="flex justify-end gap-4">
+        <div className="flex justify-end gap-4 mt-auto">
           <button
             onClick={(e) => {
               e.preventDefault();
               onClose();
             }}
-            className="px-4 py-2 text-gray-700 bg-gray-200  rounded-lg hover:bg-gray-300"
+            className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300"
           >
             Cancel
           </button>
