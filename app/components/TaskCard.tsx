@@ -6,6 +6,7 @@ import { useTaskStore } from '../store';
 import { Task } from '../types';
 import ActionsModal from './ActionsModal';
 import ConfirmationModal from './ConfirmationModal';
+import EditTaskModal from './EditTaskModal';
 
 type TaskCardProps = {
   task: Task;
@@ -17,6 +18,7 @@ export default function TaskCard({ task }: TaskCardProps) {
   const { deleteTask } = useTaskStore();
   const [isActionsOpen, setIsActionsOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -35,6 +37,11 @@ export default function TaskCard({ task }: TaskCardProps) {
   const confirmDelete = () => {
     deleteTask(task.id);
     setIsDeleteModalOpen(false);
+  };
+
+  const handleEdit = () => {
+    setIsEditModalOpen(true);
+    setIsActionsOpen(false);
   };
 
   const style = transform
@@ -62,10 +69,19 @@ export default function TaskCard({ task }: TaskCardProps) {
         >
           <EllipsisVerticalIcon className='w-5 h-5 text-white cursor-pointer' />
         </button>
+        {isEditModalOpen && (
+          <EditTaskModal
+            task={task}
+            isOpen={isEditModalOpen}
+            onClose={() => setIsEditModalOpen(false)}
+          />
+        )}
+
         {isActionsOpen && (
           <ActionsModal
             onClose={handleClose}
             onDelete={handleDelete}
+            onEdit={handleEdit}
             isOpen={isActionsOpen}
           />
         )}
